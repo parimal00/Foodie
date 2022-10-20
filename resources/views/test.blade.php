@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fabcart</title>
     <style>
         body{
             margin: 0;
@@ -92,7 +91,6 @@
     </style>
 </head>
 <body>
-
     <div class="container">
         <div class="brand-section">
             <div class="row">
@@ -107,20 +105,17 @@
         </div>
 
         <div class="body-section">
-            <div  style="display:flex;">
-                <div style="width: 50%">
-                    <h2 class="heading">Invoice No.: 001</h2>
-                    <p class="sub-heading">Tracking No. fabcart2025 </p>
-                    <p class="sub-heading">Order Date: 20-20-2021 </p>
-                    <p class="sub-heading">Email Address: customer@gfmail.com </p>
-                </div>
-                <div style="width: 50%;" >
-                    <p class="sub-heading">Full Name:  </p>
-                    <p class="sub-heading">Address:  </p>
+            <h2 class="heading">Invoice No.: 001</h2>
+           <table>
+                <tr>         
+                    <p class="sub-heading">Order Date: {{$user->orders[0]->created_at}} </p>
+                    <p class="sub-heading">Email Address: {{$user->email}}</p>
+                    <p class="sub-heading">Full Name:{{$user->name}}  </p>
+                    <p class="sub-heading">Address: {{$user->address}} </p>
                     <p class="sub-heading">Phone Number:  </p>
                     <p class="sub-heading">City,State,Pincode:  </p>
-                </div>
-            </div>
+                </tr>
+                </table>
         </div>
 
         <div class="body-section">
@@ -137,21 +132,20 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($user->orders as $order)
                     <tr>
-                        <td>Product Name</td>
-                        <td>10</td>
-                        <td>1</td>
-                        <td>10</td>
-                        <td>10</td>
+                        <td>{{$order->item_name}}</td>
+                        <td>{{$order->price_per_unit}}</td>
+                        <td>{{$order->amount}}</td>
+                        <td>{{$order->discount_per_unit}}</td>
+                        <td>100</td>
                     </tr>
+                    @endforeach
                     <tr>
                         <td colspan="4" class="text-right"> Total</td>
                         <td> 10.XX</td>
                     </tr>
-                    <tr>
-                        <td colspan="4" class="text-right">Tax Total %1X</td>
-                        <td> 2</td>
-                    </tr>
+                  
                     <tr>
                         <td colspan="4" class="text-right">Grand Total</td>
                         <td> 12.XX</td>
@@ -165,6 +159,7 @@
 
           
     </div>      
+
 
 </body>
 </html>

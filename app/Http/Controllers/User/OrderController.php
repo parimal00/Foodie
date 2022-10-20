@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Notifications\NewOrderNotification;
 
 class OrderController extends Controller
 {
@@ -57,6 +59,13 @@ class OrderController extends Controller
         } catch (Exception $e) {
             return back()->with('error', 'Opps!! Error Occorred! Try again!');
         }
+        $users = User::whereHas('role', function ($query) {
+            $query->where('name', 'admin');
+        })->get();
+        foreach ($users as $user) {
+            $user->notify(new NewOrderNotification);
+        }
+        
         return back()->with('success', 'Order Placed Successfully');
     }
 }

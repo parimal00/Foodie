@@ -5,14 +5,11 @@
 
     <div class="p-5">
         <div class="sm:hidden md:block ">
-
-            <form action="{{ route('orders.store') }}" method="POST">
-                @csrf
                 @foreach ($users as $user)
                 <div class="flex">
                <span class="font-2xl text-white  border-white p-3 rounded bg-green-500">{{$user->email}}</span> 
-               <button class="p-3 text-black bg-white border ml-3" >View Bill</button>
-               <button class="p-3 text-black bg-white border ml-3">Download Bill</button>
+           <form action="{{route('invoice.show',[$user->id])}}" method="get"><button class="p-3 text-black bg-white border ml-3" >View Bill</button></form>
+               <form action="{{route('invoice.download',[$user->id])}}"><button class="p-3 text-black bg-white border ml-3">Download Bill</button></form>
             </div>
                     <table class="w-full">
                         <thead class="bg-gray-50 border-b-2 border-gray-200">
@@ -52,7 +49,6 @@
                         </tbody>
                     </table>
                 @endforeach
-            </form>
         </div>
 
     </div>

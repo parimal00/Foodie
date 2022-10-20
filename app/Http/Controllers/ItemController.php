@@ -6,10 +6,6 @@ use App\Http\Requests\ItemStoreRequest;
 use App\Http\Requests\ItemUpdateRequest;
 use App\Models\Category;
 use App\Models\Item;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
 
 class ItemController extends Controller
 {

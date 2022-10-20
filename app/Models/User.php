@@ -11,10 +11,11 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use TCG\Voyager\Models\Role;
 
 class User extends \TCG\Voyager\Models\User implements HasMedia
 {
-    use HasApiTokens, HasFactory, Notifiable,InteractsWithMedia,Filter;
+    use HasApiTokens, HasFactory, Notifiable, InteractsWithMedia, Filter;
 
     /**
      * The attributes that are mass assignable.
@@ -26,6 +27,11 @@ class User extends \TCG\Voyager\Models\User implements HasMedia
         'email',
         'password',
     ];
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'user_roles');
+    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -46,10 +52,12 @@ class User extends \TCG\Voyager\Models\User implements HasMedia
         'email_verified_at' => 'datetime',
     ];
 
-    public function carts(){
-       return $this->hasMany(Cart::class,'user_id');
+    public function carts()
+    {
+        return $this->hasMany(Cart::class, 'user_id');
     }
-    public function orders(){
+    public function orders()
+    {
         return $this->hasMany(Order::class);
     }
 }

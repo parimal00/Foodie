@@ -6,7 +6,7 @@ trait Filter
 {
     public function scopeFilterStatus($query, $status)
     {
-        if ($status) {
+        if ($status && $status != "all") {
             return $query->where('status', $status);
         }
         return $query;
