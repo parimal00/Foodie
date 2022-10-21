@@ -8,7 +8,7 @@ use App\Traits\Filter;
 
 class Order extends Model
 {
-    use HasFactory,Filter;
+    use HasFactory, Filter;
     protected $fillable = [
         "item_name",
         "amount",
@@ -18,6 +18,12 @@ class Order extends Model
         "created_at",
         "updated_at",
         "order_id"
+    ];
+
+    public const STATUS = [
+        'Order Placed',
+        'In The Kitchen',
+        'Out For Delivery'
     ];
     public function items()
     {

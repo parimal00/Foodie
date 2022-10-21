@@ -26,13 +26,29 @@ class User extends \TCG\Voyager\Models\User implements HasMedia
         'name',
         'email',
         'password',
+        'role_id',
     ];
 
+    public function assignRole($role)
+    {
+        $user = $this;
+        $role = Role::where('display_name', $role)->first();
+        if ($role == null) {
+            return false;
+        }
+        $user->update([
+            'role_id' => $role->id
+        ]);
+        return true;
+    }
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'user_roles');
     }
-
+    public function driverOrders()
+    {
+        return $this->hasMany(Order::class, 'driver_id');
+    }
     /**
      * The attributes that should be hidden for serialization.
      *
