@@ -18,8 +18,7 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::where('user_id', auth()->id())->get();
-        // return $orders;
+        $orders = Order::with('driver')->where('user_id', auth()->id())->get();
         return view('orders.index', compact('orders'));
     }
     public function store(OrderStoreRequest $request)

@@ -21,14 +21,20 @@ class Order extends Model
     ];
 
     public const STATUS = [
+        'Accepted',
         'Order Placed',
         'In The Kitchen',
-        'Out For Delivery'
+        'Out For Delivery',
+        'Rejected'
     ];
     public function items()
     {
         return $this->belongsToMany(Item::class, 'item_order')
             ->withTimestamps()
             ->withPivot('quantity');
+    }
+    public function driver()
+    {
+        return $this->belongsTo(User::class, 'driver_id')->withDefault(['email' => null]);
     }
 }

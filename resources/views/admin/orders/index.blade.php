@@ -13,7 +13,7 @@
                     <form action="{{ route('admin.invoice.download', [$user->id]) }}"><button
                             class="p-3 text-black bg-white border ml-3">Download Bill</button></form>
                     <form action="{{ route('admin.orders.edit', [$user->id]) }}"><button
-                            class="p-3 text-black bg-white border ml-3">Download Bill</button></form>
+                            class="p-3 text-black bg-white border ml-3">Edit</button></form>
 
                 </div>
                 <table class="w-full">
@@ -26,6 +26,8 @@
                             <th class="text-left p-3 font-semibold tracking-wide">Discount per unit</th>
                             <th class="text-left p-3 font-semibold tracking-wide">Quantity</th>
                             <th class="text-left p-3 font-semibold tracking-wide">Total</th>
+                            <th class="text-left p-3 font-semibold tracking-wide">Status</th>
+                            <th class="text-left p-3 font-semibold tracking-wide">Driver</th>
                         </tr>
 
                     </thead>
@@ -38,16 +40,22 @@
                             @endif
                             <td class="text-sm w-24 font-bold hover:underline  p-3 text-blue-700">{{ $order->id }}
                             </td>
-                            <td class="text-sm p-3 w-1/3 text-gray-700">{{ $order->item_name }}</td>
-                            <td class="text-sm p-3 text-gray-700"><img style="width: 100px;height:100px"
+                            <td class="text-sm p-3 w-1/4 text-black">{{ $order->item_name }}</td>
+                            <td class="text-sm p-3 text-black"><img style="width: 100px;height:100px"
                                     src="{{ $order->image_url }}" alt=""></td>
 
-                            <td class="text-sm p-3 text-gray-700">{{ $order->price_per_unit }}</td>
-                            <td class="text-sm p-3 text-gray-700">{{ $order->discount_per_unit }}</td>
-                            <td class="text-sm p-3 text-gray-700">{{ $order->amount }}
+                            <td class="text-sm p-3 text-black">{{ $order->price_per_unit }}</td>
+                            <td class="text-sm p-3 text-black">{{ $order->discount_per_unit }}</td>
+                            <td class="text-sm p-3 text-black">{{ $order->amount }}
                             </td>
-                            <td class="text-sm p-3 text-gray-700">
+                            <td class="text-sm p-3 text-black">
                                 {{ $order->price_per_unit * $order->amount - $order->discount_per_unit * $order->amount }}
+                            </td>
+                            <td class="text-sm p-3 text-black">
+                                {{ $order->status}}
+                            </td>
+                            <td class="text-sm p-3 text-black">
+                                {{ $order->driver->email }}
                             </td>
                             </tr>
                         @endforeach

@@ -1,5 +1,4 @@
 @extends('voyager::master')
-
 @section('content')
     @vite('resources/css/app.css')
 

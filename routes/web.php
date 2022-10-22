@@ -22,6 +22,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('test',function(){
+return auth()->user()->unreadNotifications->count();
+});
+
+Route::view('/','index');
 
 Route::group(['middleware' => 'auth'], function () {
     // Route::get('users/profile/cart', [CartController::class, 'index'])->name('cart.index');

@@ -17,7 +17,8 @@ class OrderController extends Controller
     {
         $users = User::whereHas('orders', function ($query) {
             $query->filterStatus(request('status'));
-        })->with('orders')->get();
+        })->with('orders.driver')->get();
+    
         return view('admin.orders.index', compact('users'));
     }
     public function edit(User $user)
@@ -27,7 +28,9 @@ class OrderController extends Controller
         $drivers = User::where('role_id', $role_id)->get();
         return view('admin.orders.edit', compact('drivers', 'user'));
     }
-    public function update(OrderUpdateRequest $request,User $user){
-        $user->orders->update($request->validated());
+    public function update(OrderUpdateRequest $request, User $user)
+    {
+        $user->orders()->update($request->validated());
+        return back()->with('success', 'Order Updated Succesfully');
     }
 }
