@@ -10,15 +10,15 @@ use Illuminate\Notifications\Notification;
 class NewOrderNotification extends Notification
 {
     use Queueable;
-
+    public $orders;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($orders)
     {
-        //
+        $this->orders = $orders;
     }
 
     /**
@@ -42,7 +42,9 @@ class NewOrderNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'ordered_by' => auth()->id()
+            'email' => auth()->user()->email,
+            'user_id' => auth()->id(),
+            'order_id' => $this->orders[0]['order_id'],
         ];
     }
 }

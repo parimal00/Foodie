@@ -27,4 +27,10 @@ class OrderStoreRequest extends FormRequest
             'cart_ids'=>'required'
         ];
     }
+    public function messages()
+    {
+        return [
+            'cart_ids.required'=>'At least one checkbox should be checked'
+        ];
+    }
 }

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderUpdateRequest;
 use App\Models\Order;
 use App\Models\User;
+use App\Services\UserType;
+use App\Services\UserWithRole;
 use Illuminate\Http\Request;
 use TCG\Voyager\Models\Role;
 
@@ -18,19 +20,29 @@ class OrderController extends Controller
         $users = User::whereHas('orders', function ($query) {
             $query->filterStatus(request('status'));
         })->with('orders.driver')->get();
-    
+
         return view('admin.orders.index', compact('users'));
     }
-    public function edit(User $user)
+    public function edit(Order $order)
     {
-        $user->load('orders');
-        $role_id = Role::where('display_name', 'driver')->first()->id;
-        $drivers = User::where('role_id', $role_id)->get();
-        return view('admin.orders.edit', compact('drivers', 'user'));
+        $order->load('user');
+
+        //get users with role driver ie (get drivers)
+        $drivers = (new UserWithRole('driver'))->get();
+
+        return view('admin.orders.edit', compact('drivers', 'order'));
     }
-    public function update(OrderUpdateRequest $request, User $user)
+
+    public function show($id)
     {
-        $user->orders()->update($request->validated());
-        return back()->with('success', 'Order Updated Succesfully');
+        $orders = Order::with('user')->where('order_id', $id)->get();
+        return view('admin.orders.show', compact('orders'));
+    }
+    public function update(OrderUpdateRequest $request, Order $order)
+    {
+
+        // dd($request->validated());
+        $order->update($request->validated());
+        return redirect()->route('admin.orders.index')->with('success', 'Order Updated Succesfully');
     }
 }

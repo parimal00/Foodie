@@ -15,13 +15,12 @@ class Item extends Model  implements HasMedia
         'name',
         'category_id',
         'price_per_unit',
-        'discount'     
+        'discount',
+        'quantity'
     ];
 
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
-
-
 }

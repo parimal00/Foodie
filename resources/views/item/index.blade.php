@@ -6,7 +6,7 @@
     <div class="p-5">
 
         <div>
-            <form action="{{ route('items.create') }}" method="get">
+            <form action="{{ route('admin.items.create') }}" method="get">
                 <button class="bg-green-400 text-white rounded-md py-2 px-3">Create Item</button>
             </form>
         </div>
@@ -42,8 +42,8 @@
                         <td class="text-sm p-3 text-gray-700">{{ $item->category->name }}</td>
 
                         <td class="text-sm p-3 text-gray-700">
-                            <form action="{{ route('items.edit', [$item->id]) }}" method="get"><button>Edit</button></form>
-                            <form action="{{ route('items.destroy', [$item->id]) }} " method="POST">@csrf
+                            <form action="{{ route('admin.items.edit', [$item->id]) }}" method="get"><button>Edit</button></form>
+                            <form action="{{ route('admin.items.destroy', [$item->id]) }} " method="POST">@csrf
                                 @method('DELETE')<button>Delete</button></form>
                         </td>
 

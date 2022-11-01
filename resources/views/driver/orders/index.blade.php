@@ -1,19 +1,18 @@
-@extends('voyager::master')
+@extends('layout.main')
 
 @section('content')
     @vite('resources/css/app.css')
 
     <div class="p-5">
-        <div class="sm:hidden md:block ">
-            @foreach ($users as $user)
+        <div >
+            @forelse ($users as $user)
                 <div class="flex">
                     <span class="font-2xl text-white  border-white p-3 rounded bg-green-500">{{ $user->email }}</span>
-                    <form action="{{ route('admin.invoice.show', [$user->id]) }}" method="get"><button
-                            class="p-3 text-black bg-white border ml-3">View Bill</button></form>
-                    <form action="{{ route('admin.invoice.download', [$user->id]) }}"><button
-                            class="p-3 text-black bg-white border ml-3">Download Bill</button></form>
-                    <form action="{{ route('admin.orders.edit', [$user->id]) }}"><button
-                            class="p-3 text-black bg-white border ml-3">Edit</button></form>
+                    <form action="{{ route('driver.orders.update', [$user->id]) }}" method="post">
+                        @csrf
+                        @method('PUT')
+                        <button class="p-3 text-black bg-white border ml-3">Item Delivered</button>
+                    </form>
 
                 </div>
                 <table class="w-full">
@@ -28,8 +27,6 @@
                             <th class="text-left p-3 font-semibold tracking-wide">Total</th>
                             <th class="text-left p-3 font-semibold tracking-wide">Status</th>
                             <th class="text-left p-3 font-semibold tracking-wide">Driver</th>
-                            <th class="text-left p-3 font-semibold tracking-wide">Action</th>
-
                         </tr>
 
                     </thead>
@@ -59,17 +56,16 @@
                             <td class="text-sm p-3 text-black">
                                 {{ $order->driver->email }}
                             </td>
-                            <form action="{{route('admin.orders.edit',[$order->id])}}" method="GET">
-                                <td class="text-sm p-3 text-black">
-                                   <button>Edit</button>
-                                </td>
-                            </form>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
-            @endforeach
+                @empty 
+              <div  class="bg-red-500 w-full font-bold py-3  text-red-900 text-center border-4 rounded-md border-red-900"> <div> No Orders </div></div>
+            @endforelse
+
         </div>
 
     </div>
+
 @endsection

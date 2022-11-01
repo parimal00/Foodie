@@ -12,10 +12,10 @@
                             <h3 class="text-da mb-4">Flame <span>Grilled Burger</span> </h3>
                             <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
                                 laudantium</p>
-                            <a href="about.html" class="button-w3ls active mt-5">Read More
+                            <a href="{{route('about')}}" class="button-w3ls active mt-5">Read More
                                 <span class="fa fa-caret-right ml-1" aria-hidden="true"></span>
                             </a>
-                            <a href="menu.html" class="button-w3ls mt-5 ml-2">Order Now
+                            <a href="{{route('menus.index')}}" class="button-w3ls mt-5 ml-2">Order Now
                                 <span class="fa fa-caret-right ml-1" aria-hidden="true"></span>
                             </a>
                         </div>

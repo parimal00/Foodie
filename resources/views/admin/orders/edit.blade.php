@@ -3,29 +3,30 @@
 @section('content')
     @vite('resources/css/app.css')
     <div class="p-5">
-        <form action="{{ route('admin.orders.update', [$user->id]) }}" method="POST">
+        <form action="{{ route('admin.orders.update', [$order->id]) }}" method="POST">
             @csrf
             @method('PUT')
-            <label class="text-black text-md font-bold">#{{ $user->orders[0]->order_id }}</label> <br>
+            <label class="text-black text-md font-bold">#{{ $order->order_id }}</label> <br>
             <label class="text-black font-semibold">Ordered By </label><br>
-            <label class="text-black border rounded-md border-gray-600 w-full py-3 px-2">{{ $user->email }}</label> <br>
+            <label class="text-black border rounded-md border-gray-600 w-full py-3 px-2">{{ $order->user->email }}</label> <br>
             <br>
 
             <label class="text-black font-semibold">Items</label><br>
-            @foreach ($user->orders as $order)
+           
                 <label class="text-black border rounded-md border-gray-600 w-full py-3 px-2">{{ $order->item_name }}</label>
                 <br>
-            @endforeach
+       
             <br>
 
             <label class="text-black font-semibold">Delivery Address </label><br>
-            <label class="text-black border rounded-md border-gray-600 w-full py-3 px-2">{{ $user->email }}</label> <br>
+            <label class="text-black border rounded-md border-gray-600 w-full py-3 px-2">{{ $order->user->email }}</label> <br>
             <br>
 
             <label class="text-black font-semibold">Choose Driver</label><br>
             <select name="driver_id" class="text-black border rounded-md border-gray-600 w-full py-3 px-2">
+                <option value="null">No Driver</option>
                 @foreach ($drivers as $driver)
-                    <option {{ $user->orders[0]->driver_id == $driver->id ? 'selected' : '' }} value="{{$driver->id}}">
+                    <option {{ $order->driver_id == $driver->id ? 'selected' : '' }} value="{{$driver->id}}">
                         {{ $driver->email }}</option>
                 @endforeach
             </select>

@@ -5,7 +5,7 @@
     <div class="p-5">
         <div class="sm:hidden md:block ">
            
-            <form action="{{ route('orders.store') }}" method="POST">
+            <form action="{{ route('user.orders.store',[auth()->id()]) }}" method="POST">
                 @csrf
                 <table class="w-full">
                     <thead class="bg-gray-50 border-b-2 border-gray-200">
@@ -17,6 +17,7 @@
                             <th class="text-left p-3 font-semibold tracking-wide">Discount</th>
                             <th class="text-left p-3 font-semibold tracking-wide">Quantity</th>
                             <th class="text-left p-3 font-semibold tracking-wide">Total</th>
+                            <th class="text-left p-3 font-semibold tracking-wide">Status</th>
                         </tr>
 
                     </thead>
@@ -35,11 +36,14 @@
                                     src="{{ $order->image_url }}" alt=""></td>
 
                             <td class="text-sm p-3 text-gray-700">{{ $order->price_per_unit }}</td>
-                            <td class="text-sm p-3 text-gray-700">{{ $order->discount }}</td>
+                            <td class="text-sm p-3 text-gray-700">{{ $order->discount_per_unit }}</td>
                             <td class="text-sm p-3 text-gray-700">{{ $order->amount }}
                             </td>
                             <td class="text-sm p-3 text-gray-700">
-                                {{ $order->price_per_unit * $order->amount - $order->discount * $order->amount }}
+                                {{ $order->total_price }}
+                            </td>
+                            <td class="text-sm p-3 text-gray-700">
+                                {{ $order->status }}
                             </td>
                             </tr>
                         @endforeach

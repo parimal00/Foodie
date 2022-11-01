@@ -17,16 +17,25 @@ class Order extends Model
         "user_id",
         "created_at",
         "updated_at",
-        "order_id"
+        "order_id",
+        'status',
+        'driver_id'
     ];
 
     public const STATUS = [
-        'Accepted',
+        'Processing',
         'Order Placed',
         'In The Kitchen',
         'Out For Delivery',
         'Rejected'
     ];
+    public function scopeFilterStatus($query, $status)
+    {
+        if($status){
+            return $query->where('status',$status);
+        }
+        return $query->where('status','!=','delivered');
+    }
     public function items()
     {
         return $this->belongsToMany(Item::class, 'item_order')
@@ -36,5 +45,9 @@ class Order extends Model
     public function driver()
     {
         return $this->belongsTo(User::class, 'driver_id')->withDefault(['email' => null]);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id')->withDefault(['email' => null]);
     }
 }

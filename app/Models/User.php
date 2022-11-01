@@ -12,10 +12,11 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use TCG\Voyager\Models\Role;
+use App\Traits\HasOrder;
 
 class User extends \TCG\Voyager\Models\User implements HasMedia
 {
-    use HasApiTokens, HasFactory, Notifiable, InteractsWithMedia, Filter;
+    use HasApiTokens, HasFactory, Notifiable, InteractsWithMedia, Filter, HasOrder;
 
     /**
      * The attributes that are mass assignable.
@@ -74,6 +75,6 @@ class User extends \TCG\Voyager\Models\User implements HasMedia
     }
     public function orders()
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(Order::class,'user_id');
     }
 }

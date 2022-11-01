@@ -107,49 +107,32 @@
                                 <div style="display: flex">
                                     @auth
                                         @if (auth()->user()->hasRole('Driver'))
-                                            <a href="login.html" class="btn login-button-2 text-uppercase text-wh">
+                                            <a href="{{ route('driver.orders.index') }}"
+                                                class="btn login-button-2 text-uppercase text-wh">
                                                 <span class="fa fa-sign-in mr-2"></span>Orders</a>
                                         @endif
                                     @endauth
                                     <!-- login -->
-                                    <a href="login.html" class="btn login-button-2 text-uppercase text-wh">
+                                    <a href="{{ route('user.login') }}"
+                                        class="btn login-button-2 text-uppercase text-wh">
                                         <span class="fa fa-sign-in mr-2"></span>Login</a>
                                     <!-- //login -->
-                                    <!-- login -->
 
+                                    {{-- cart --}}
+                                    <a href="{{ route('user.carts.index', [auth()->id()]) }}">
+                                        <div style="margin-left:10px;   cursor: pointer">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
+                                                fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                                            </svg>
+                                        </div>
+                                    </a>
                                 </div>
                             </div>
 
 
-                            <div class="col-lg-7 col-8 social-grid-w3">
-                                <!-- social icons -->
-                                <ul class="top-right-info">
-                                    <li>
-                                        <p>Follow Us:</p>
-                                    </li>
-                                    <li class="facebook-w3">
-                                        <a href="#facebook">
-                                            <span class="fa fa-facebook-f"></span>
-                                        </a>
-                                    </li>
-                                    <li class="twitter-w3">
-                                        <a href="#twitter">
-                                            <span class="fa fa-twitter"></span>
-                                        </a>
-                                    </li>
-                                    <li class="google-w3">
-                                        <a href="#google">
-                                            <span class="fa fa-google-plus"></span>
-                                        </a>
-                                    </li>
-                                    <li class="dribble-w3">
-                                        <a href="#dribble">
-                                            <span class="fa fa-dribbble"></span>
-                                        </a>
-                                    </li>
-                                </ul>
-                                <!-- //social icons -->
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -165,7 +148,7 @@
             <div class="nav-content">
                 <!-- logo -->
                 <h1>
-                    <a id="logo" class="logo flex" href="index.html">
+                    <a id="logo" class="logo flex" href="/">
                         <img src="/images/logo.png" alt="" class="img-fluid"><span>Tasty</span> Burger
                     </a>
                 </h1>
@@ -177,7 +160,7 @@
                         <input type="checkbox" id="drop" />
                         <ul class="menu">
                             <li><a href="/">Home</a></li>
-                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="{{ route('about') }}">About Us</a></li>
                             <li>
                                 <!-- First Tier Drop Down -->
                                 <label for="drop-3" class="toggle toogle-2">Pages <span class="fa fa-angle-down"
@@ -187,21 +170,22 @@
                                 <input type="checkbox" id="drop-3" />
                                 <ul>
                                     <li><a class="drop-text" href="#services">Services</a></li>
-                                    <li><a class="drop-text" href="about.html">Our Chefs</a></li>
-                                    <li><a class="drop-text" href="#blog">Blog</a></li>
-                                    <li><a class="drop-text" href="single.html">Single Page</a></li>
-                                    <li><a class="drop-text" href="/user/login">Login</a></li>
-                                    <li><a class="drop-text" href="/user/register">Register</a></li>
+                                    <li><a class="drop-text" href="{{ route('about') }}">Our Chefs</a></li>
+
+                                    <li><a class="drop-text" href="{{ route('user.register') }}">Register</a></li>
                                 </ul>
                             </li>
                             <li><a href="{{ route('menus.index') }}">Menu</a></li>
-                            <li><a href="contact.html">Contact Us</a></li>
-                            <li>
-                                <!-- login -->
-                                <a href="https://w3layouts.com/" target="_blank" class="dwn-button ml-lg-5">
-                                    <span class="fa fa-cloud-download mt-lg-0 mt-4" aria-hidden="true"></span>
-                                </a>
-                                <!-- //login -->
+                            <li><a href="{{ route('contact') }}">Contact Us</a></li>
+                            <li><a style="color:red" href="{{ route('user.orders.index') }}">My
+                                    Orders</a></li>
+                            <li><a href="{{ route('user.orders.index',['status'=>'delivered']) }}">Orders History</a></li>                     
+
+                            <!-- login -->
+                            <a href="https://w3layouts.com/" target="_blank" class="dwn-button ml-lg-5">
+                                <span class="fa fa-cloud-download mt-lg-0 mt-4" aria-hidden="true"></span>
+                            </a>
+                            <!-- //login -->
                             </li>
                         </ul>
                     </nav>

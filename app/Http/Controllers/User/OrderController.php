@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Events\OrderPlacedEvent;
 use App\Http\Requests\OrderStoreRequest;
 use App\Models\Cart;
 use App\Models\Item;
@@ -18,12 +19,12 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::with('driver')->where('user_id', auth()->id())->get();
+        // $orders=auth()->user()->orders();
+        $orders = Order::filterStatus(request('status'))->with('driver')->where('user_id', auth()->id())->get();
         return view('orders.index', compact('orders'));
     }
     public function store(OrderStoreRequest $request)
     {
-        $orders = array();
         $cart_ids = $request->cart_ids;
 
         //get carts
@@ -31,40 +32,44 @@ class OrderController extends Controller
             ->where('user_id', auth()->id())
             ->get();
 
-        //prepare orders
+        //prepare order
+        $orders =  $this->prepareOrder($carts);
+
+        // //place order from carts
+        try {
+            DB::transaction(function () use ($orders, $cart_ids) {
+                auth()->user()->placeOrder($orders, $cart_ids);
+            });
+        } catch (Exception $e) {
+            return back()->with('error', 'Opps!! Error Occorred! Try again!');
+        }
+
+        //event to send notifications to admins
+        OrderPlacedEvent::dispatch($orders);
+
+        return back()->with('success', 'Order Placed Successfully');
+    }
+
+    private function prepareOrder($carts)
+    {
+        $order_id =  Str::uuid()->toString();
+        $orders = array();
         foreach ($carts as $cart) {
             $order = array(
                 "item_name" => $cart->item->name,
                 "amount" => $cart->amount,
                 "price_per_unit" => $cart->item->price_per_unit,
                 "discount_per_unit" => $cart->item->discount,
-                "order_id" => Str::random(10),
+                "order_id" => $order_id,
                 "user_id" => auth()->id(),
                 "image_url" => $cart->item->getFirstMediaUrl("item_image"),
-                "status" => "pending",
+                "status" => "processing",
+                "total_price" => ($cart->amount * $cart->item->price_per_unit) - ($cart->amount * $cart->item->discount),
                 "created_at" => now(),
                 "updated_at" => now(),
             );
             array_push($orders, $order);
         }
-        try {
-            DB::transaction(function () use ($orders, $cart_ids) {
-                Order::insert($orders);
-                Cart::whereIn('id', $cart_ids)
-                    ->where('user_id', auth()->id())
-                    ->delete();
-                //delete quantity
-            });
-        } catch (Exception $e) {
-            return back()->with('error', 'Opps!! Error Occorred! Try again!');
-        }
-        $users = User::whereHas('role', function ($query) {
-            $query->where('name', 'admin');
-        })->get();
-        foreach ($users as $user) {
-            $user->notify(new NewOrderNotification);
-        }
-        
-        return back()->with('success', 'Order Placed Successfully');
+        return $orders;
     }
 }

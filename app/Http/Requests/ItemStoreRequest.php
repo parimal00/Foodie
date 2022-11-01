@@ -28,7 +28,8 @@ class ItemStoreRequest extends FormRequest
             'category_id' => 'required|exists:categories,id',
             'price_per_unit' => 'required',
             'discount' => 'required',
-            'item_image' => 'required|exclude'
+            'item_image' => 'required|exclude',
+            'quantity' => 'required|integer|gt:0'
         ];
     }
 }

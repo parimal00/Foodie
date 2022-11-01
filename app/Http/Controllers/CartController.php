@@ -67,7 +67,7 @@ class CartController extends Controller
     public function edit(Cart $cart)
     {
         $cart->load('item');
-        return view('cart.edit',compact('cart'));
+        return view('cart.edit', compact('cart'));
     }
 
     /**
@@ -80,9 +80,9 @@ class CartController extends Controller
     public function update(CartUpdateRequest $request, Cart $cart)
     {
         $cart->update([
-            'amount'=>$request->quantity
+            'amount' => $request->quantity
         ]);
-        return redirect()->route('carts.index')->with('success','Cart Updated Successfully');
+        return redirect()->route('carts.index')->with('success', 'Cart Updated Successfully');
     }
 
     /**
@@ -94,7 +94,6 @@ class CartController extends Controller
     public function destroy(Cart $cart)
     {
         $cart->delete();
-        return redirect()->route('carts.index')->with('success','Cart Updated Successfully');
-
+        return redirect()->route('carts.index')->with('success', 'Cart Updated Successfully');
     }
 }

@@ -36,7 +36,7 @@
                                 </p>
                                 <p class="account-w3ls text-center text-da">
                                     Don't have an account?
-                                    <a href="register.html">Create one now</a>
+                                    <a href="{{route('user.register')}}">Create one now</a>
                                 </p>
                             </form>
                         </div>
