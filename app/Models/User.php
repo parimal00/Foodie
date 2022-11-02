@@ -75,6 +75,6 @@ class User extends \TCG\Voyager\Models\User implements HasMedia
     }
     public function orders()
     {
-        return $this->hasMany(Order::class,'user_id');
+        return $this->hasMany(Order::class, 'user_id');
     }
 }

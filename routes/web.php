@@ -12,6 +12,7 @@ use App\Http\Controllers\Driver\OrderController as DriverOrderController;
 use App\Http\Controllers\User\OrderController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 
 Route::view('/', 'index');
 Route::view('/about', 'about')->name('about');
@@ -36,7 +38,7 @@ Route::view('/user/register', 'register')->name('user.register')->middleware('gu
 
 //auth
 Route::group(['middleware' => 'auth'], function () {
-    
+
     //users
     Route::group(['middleware' => 'auth', 'as' => 'user.', 'prefix' => 'user'], function () {
         Route::resource('/my/carts', CartController::class);
@@ -45,9 +47,8 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     //drivers
-    Route::group(['middleware' => 'role:Driver', 'as' => 'driver.'], function () {
-        Route::get('/my/orders', [DriverOrderController::class, 'index']);
-        Route::get('/my/orders', [DriverOrderController::class, 'index']);
+    Route::group(['middleware' => 'role:Driver', 'as' => 'driver.','prefix'=>'driver'], function () {
+        Route::get('/my/orders', [DriverOrderController::class, 'index'])->name('orders.index');
         Route::put('/users/{user}/orders/', [DriverOrderController::class, 'update'])->name('orders.update');
     });
 

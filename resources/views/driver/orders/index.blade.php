@@ -26,7 +26,6 @@
                             <th class="text-left p-3 font-semibold tracking-wide">Quantity</th>
                             <th class="text-left p-3 font-semibold tracking-wide">Total</th>
                             <th class="text-left p-3 font-semibold tracking-wide">Status</th>
-                            <th class="text-left p-3 font-semibold tracking-wide">Driver</th>
                         </tr>
 
                     </thead>
@@ -52,9 +51,6 @@
                             </td>
                             <td class="text-sm p-3 text-black">
                                 {{ $order->status }}
-                            </td>
-                            <td class="text-sm p-3 text-black">
-                                {{ $order->driver->email }}
                             </td>
                             </tr>
                         @endforeach

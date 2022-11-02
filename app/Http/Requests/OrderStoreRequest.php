@@ -24,13 +24,13 @@ class OrderStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'cart_ids'=>'required'
+            'cart_ids' => 'required'
         ];
     }
     public function messages()
     {
         return [
-            'cart_ids.required'=>'At least one checkbox should be checked'
+            'cart_ids.required' => 'At least one checkbox should be checked'
         ];
     }
 }

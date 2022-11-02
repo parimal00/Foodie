@@ -12,8 +12,10 @@ class OrderController extends Controller
     public function index()
     {
         $users = User::whereHas('orders', function ($query) {
-            $query->where('driver_id', auth()->id())
-            ->where('status','!=','delivered');
+            $query->where(function ($query) {
+                $query->where('driver_id', auth()->id())
+                    ->where('status', '!=', 'delivered');
+            });
         })
             ->with(['orders' => function ($query) {
                 $query->where('status', '!=', 'delivered');
